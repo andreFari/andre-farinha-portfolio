@@ -1,0 +1,400 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/global.css';
+import {
+  about,
+  principles,
+  products,
+  profile,
+  stack,
+  systems,
+  techbridgeCapabilities,
+  timeline,
+} from '../data/profile';
+
+const totalSlides = 8;
+const slideLabels = ['Intro', 'About', 'Journey', 'Techbridge', 'Products', 'Client work', 'Method', 'Contact'];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  jobTitle: profile.role,
+  url: profile.techbridge,
+  email: profile.email,
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'PT',
+  },
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Techbridge',
+    url: profile.techbridge,
+  },
+};
+---
+<BaseLayout
+  title={`${profile.name} — ${profile.role}`}
+  description="André Farinha builds mobile products, business software, integrations and automation through Techbridge."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+
+  <header class="topbar" aria-label="Main navigation">
+    <a class="brand" href="#intro" data-go="0" aria-label="Back to the first slide">
+      <span class="brand-mark">{profile.initials}</span>
+      <span class="brand-copy">
+        <strong>{profile.name}</strong>
+        <small>{profile.role}</small>
+      </span>
+    </a>
+
+    <div class="top-actions">
+      <span class="current-label" aria-live="polite">Intro</span>
+      <span class="counter" aria-live="polite">01 / 0{totalSlides}</span>
+      <button class="icon-button desktop-only" type="button" data-prev aria-label="Previous slide">←</button>
+      <button class="icon-button" type="button" data-next aria-label="Next slide">→</button>
+    </div>
+  </header>
+
+  <main class="deck" id="deck">
+    <section class="slide slide-intro is-active" id="intro" data-title="Intro">
+      <div class="slide-index" aria-hidden="true">01</div>
+      <div class="slide-inner hero-layout">
+        <div class="hero-copy">
+          <span class="kicker reveal">Independent portfolio · 2026</span>
+          <h1 class="reveal">I build software that survives real work.</h1>
+          <p class="lead reveal">
+            I am {profile.name}, a product builder and software developer. I turn unclear operations into focused mobile products, dependable business systems and useful automation.
+          </p>
+        </div>
+
+        <aside class="hero-facts reveal" aria-label="Quick profile">
+          <div>
+            <span>Current</span>
+            <strong>Founder at Techbridge</strong>
+          </div>
+          <div>
+            <span>Background</span>
+            <strong>Informatics & Multimedia</strong>
+          </div>
+          <div>
+            <span>Based in</span>
+            <strong>{profile.location}</strong>
+          </div>
+          <div class="hero-instruction">
+            <span class="desktop-only">Mouse wheel, arrows or keyboard</span>
+            <span class="mobile-only">Swipe down to continue</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="about" data-title="About">
+      <div class="slide-index" aria-hidden="true">02</div>
+      <div class="slide-inner about-layout">
+        <div>
+          <span class="kicker reveal">About</span>
+          <h2 class="reveal">From messy operations to dependable systems.</h2>
+        </div>
+
+        <div class="about-copy reveal">
+          <p class="statement">{about.intro}</p>
+          <p>{about.detail}</p>
+          <div class="focus-list" aria-label="Areas of focus">
+            {about.focus.map((item, index) => (
+              <div>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <strong>{item}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="journey" data-title="Journey">
+      <div class="slide-index" aria-hidden="true">03</div>
+      <div class="slide-inner journey-layout">
+        <div class="section-heading">
+          <span class="kicker reveal">Journey</span>
+          <h2 class="reveal">Education gave me range. Building gave me direction.</h2>
+          <p class="section-note reveal">
+            The consistent thread is not one framework. It is taking a concrete problem from first conversation to a working product.
+          </p>
+        </div>
+
+        <div class="journey-list reveal">
+          {timeline.map((item, index) => (
+            <article class="journey-item">
+              <span class="journey-number">{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <span class="journey-period">{item.period}</span>
+                <h3>{item.title}</h3>
+                <strong>{item.organisation}</strong>
+                <p>{item.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="techbridge" data-title="Techbridge">
+      <div class="slide-index" aria-hidden="true">04</div>
+      <div class="slide-inner techbridge-layout">
+        <div class="section-heading">
+          <span class="kicker reveal">Techbridge</span>
+          <h2 class="reveal">The bridge between how work happens and how it should happen.</h2>
+          <p class="section-note reveal">
+            Techbridge creates tailored software, mobile applications, integrations and automation for organisations that have outgrown disconnected tools and manual processes.
+          </p>
+          <a class="text-link reveal" href={profile.techbridge} target="_blank" rel="noreferrer">Visit Techbridge ↗</a>
+        </div>
+
+        <div class="capability-grid reveal">
+          {techbridgeCapabilities.map((item) => (
+            <article class="capability">
+              <span>{item.code}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="products" data-title="Products">
+      <div class="slide-index" aria-hidden="true">05</div>
+      <div class="slide-inner project-layout">
+        <div class="section-heading compact-heading">
+          <span class="kicker reveal">Own products</span>
+          <h2 class="reveal">Products built around behaviour, not feature lists.</h2>
+        </div>
+
+        <div class="project-list reveal">
+          {products.map((product) => (
+            <a
+              class="project-row"
+              href={product.href}
+              target={product.href === '#' ? undefined : '_blank'}
+              rel={product.href === '#' ? undefined : 'noreferrer'}
+              aria-label={`${product.name}${product.href === '#' ? '' : ' — open project'}`}
+            >
+              <div class="project-id">{product.id}</div>
+              <div class="project-name">
+                <span>{product.category}</span>
+                <h3>{product.name}</h3>
+              </div>
+              <div class="project-detail">
+                <span>Problem</span>
+                <p>{product.problem}</p>
+              </div>
+              <div class="project-detail">
+                <span>Built</span>
+                <p>{product.built}</p>
+              </div>
+              <div class="project-outcome">
+                <span>Outcome</span>
+                <p>{product.outcome}</p>
+              </div>
+              <div class="project-arrow" aria-hidden="true">↗</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="client-work" data-title="Client work">
+      <div class="slide-index" aria-hidden="true">06</div>
+      <div class="slide-inner client-layout">
+        <div class="section-heading compact-heading">
+          <span class="kicker reveal">Selected client work</span>
+          <h2 class="reveal">Software that becomes part of the operation.</h2>
+          <p class="section-note reveal">Client systems are described without exposing private data, infrastructure or internal business rules.</p>
+        </div>
+
+        <div class="client-columns reveal">
+          {systems.map((system, index) => (
+            <article class="client-case">
+              <div class="client-case-heading">
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <div>
+                  <small>{system.client}</small>
+                  <h3>{system.label}</h3>
+                </div>
+              </div>
+              <p>{system.description}</p>
+              <ul>
+                {system.areas.map((area) => <li>{area}</li>)}
+              </ul>
+              <small class="confidential">Private production work · technical detail available in conversation</small>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="method" data-title="Method">
+      <div class="slide-index" aria-hidden="true">07</div>
+      <div class="slide-inner method-layout">
+        <div class="section-heading">
+          <span class="kicker reveal">How I build</span>
+          <h2 class="reveal">Backend first. Proof over polish.</h2>
+          <p class="section-note reveal">
+            Clean interfaces matter, but they only stay useful when data, permissions, rules and recovery are treated as the product foundation.
+          </p>
+          <div class="stack-list reveal" aria-label="Technology stack">
+            {stack.map((item) => <span>{item}</span>)}
+          </div>
+        </div>
+
+        <div class="principle-list reveal">
+          {principles.map(([number, title, text]) => (
+            <article class="principle">
+              <span>{number}</span>
+              <div>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="slide slide-contact" id="contact" data-title="Contact">
+      <div class="slide-index" aria-hidden="true">08</div>
+      <div class="slide-inner contact-layout">
+        <div>
+          <span class="kicker reveal">Contact</span>
+          <h2 class="reveal">Have a process that still depends on memory, paper or repeated messages?</h2>
+          <p class="contact-role reveal">{profile.headline}</p>
+        </div>
+
+        <div class="contact-panel reveal">
+          <p>
+            I am open to conversations about product development, internal business software, mobile applications, integrations and automation.
+          </p>
+          <div class="contact-links">
+            <a href={profile.linkedin} target="_blank" rel="noreferrer">
+              <span>LinkedIn</span>
+              <strong>Connect with me</strong>
+              <i>↗</i>
+            </a>
+            <a href={`mailto:${profile.email}`}>
+              <span>Email</span>
+              <strong>{profile.email}</strong>
+              <i>↗</i>
+            </a>
+            <a href={profile.github} target="_blank" rel="noreferrer">
+              <span>GitHub</span>
+              <strong>Public code</strong>
+              <i>↗</i>
+            </a>
+            <a href={profile.techbridge} target="_blank" rel="noreferrer">
+              <span>Company</span>
+              <strong>Techbridge</strong>
+              <i>↗</i>
+            </a>
+          </div>
+          <small>© 2026 {profile.name}. Built with Astro.</small>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="progress" aria-label="Slide navigation">
+    {slideLabels.map((label, index) => (
+      <button class={index === 0 ? 'active' : ''} data-go={index} aria-label={`Go to ${label}`} title={label}>
+        {String(index + 1).padStart(2, '0')}
+      </button>
+    ))}
+  </nav>
+
+  <script is:inline>
+    const deck = document.querySelector('#deck');
+    const slides = [...document.querySelectorAll('.slide')];
+    const indicators = [...document.querySelectorAll('.progress button')];
+    const counter = document.querySelector('.counter');
+    const currentLabel = document.querySelector('.current-label');
+    const nextButton = document.querySelector('[data-next]');
+    const prevButton = document.querySelector('[data-prev]');
+    let activeIndex = 0;
+    let wheelLocked = false;
+
+    const isDesktop = () => window.matchMedia('(min-width: 861px)').matches;
+
+    function updateUi(index) {
+      activeIndex = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle('is-active', slideIndex === activeIndex);
+      });
+      indicators.forEach((indicator, indicatorIndex) => {
+        indicator.classList.toggle('active', indicatorIndex === activeIndex);
+      });
+      counter.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      currentLabel.textContent = slides[activeIndex].dataset.title || '';
+      nextButton.textContent = activeIndex === slides.length - 1 ? '↺' : '→';
+    }
+
+    function goTo(index) {
+      const targetIndex = index < 0 ? slides.length - 1 : index >= slides.length ? 0 : index;
+      slides[targetIndex].scrollTop = 0;
+      slides[targetIndex].scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+      updateUi(targetIndex);
+    }
+
+    document.querySelectorAll('[data-go]').forEach((element) => {
+      element.addEventListener('click', (event) => {
+        event.preventDefault();
+        goTo(Number(element.dataset.go));
+      });
+    });
+
+    nextButton.addEventListener('click', () => goTo(activeIndex + 1));
+    prevButton?.addEventListener('click', () => goTo(activeIndex - 1));
+
+    window.addEventListener('keydown', (event) => {
+      const nextKeys = ['ArrowRight', 'PageDown'];
+      const previousKeys = ['ArrowLeft', 'PageUp'];
+      if (nextKeys.includes(event.key)) {
+        event.preventDefault();
+        goTo(activeIndex + 1);
+      }
+      if (previousKeys.includes(event.key)) {
+        event.preventDefault();
+        goTo(activeIndex - 1);
+      }
+      if (event.key === 'Home') goTo(0);
+      if (event.key === 'End') goTo(slides.length - 1);
+    });
+
+    deck.addEventListener('wheel', (event) => {
+      if (!isDesktop() || wheelLocked || Math.abs(event.deltaY) < 12) return;
+
+      const currentSlide = slides[activeIndex];
+      const canScrollInside = currentSlide.scrollHeight > currentSlide.clientHeight + 4;
+      const movingForward = event.deltaY > 0;
+      const atStart = currentSlide.scrollTop <= 1;
+      const atEnd = currentSlide.scrollTop + currentSlide.clientHeight >= currentSlide.scrollHeight - 1;
+
+      if (canScrollInside && ((movingForward && !atEnd) || (!movingForward && !atStart))) {
+        return;
+      }
+
+      event.preventDefault();
+      wheelLocked = true;
+      goTo(activeIndex + (movingForward ? 1 : -1));
+      window.setTimeout(() => { wheelLocked = false; }, 620);
+    }, { passive: false });
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) updateUi(slides.indexOf(visible.target));
+    }, { root: deck, threshold: [0.55, 0.7, 0.85] });
+
+    slides.forEach((slide) => observer.observe(slide));
+    updateUi(0);
+  </script>
+</BaseLayout>
